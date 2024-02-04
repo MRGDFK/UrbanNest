@@ -83,14 +83,47 @@ create table property(
 	prop_image varchar (100) not null,
 	prop_bed int not null,
 	prop_bath int not null
+	
 	);
 
     use real_state_listing_properties;
 	insert into property(prop_id, seller_id, prop_location, porp_type, prop_description, prop_size, prop_price, prop_status, prop_image, prop_bed, prop_bath)
     values(1,1111,"Badda","Flat","This is description","2200 sqft","475000","on list", "property1.png","5","4");
+	use real_state_listing_properties;
+	insert into property(seller_id, prop_location, porp_type, prop_description, prop_size, prop_price, prop_status, prop_image, prop_bed, prop_bath,prop_title)
+    values(1111,"Dhanmondi","Flat","This is description","2200 sqft","475000","on list", "prop5.jpg","5","4","Metro Melody");
+
+	insert into property(seller_id, prop_location, porp_type, prop_description, prop_size, prop_price, prop_status, prop_image, prop_bed, prop_bath, prop_title)
+    values(1111,"Gulshan","Flat","This is description","2200 sqft","475000","on list", "prop2.jpeg","5","4","Asha Housing");
+
+	insert into property(seller_id, prop_location, porp_type, prop_description, prop_size, prop_price, prop_status, prop_image, prop_bed, prop_bath, prop_title)
+    values(1111,"Jatrabari","Flat","This is description","2200 sqft","475000","on list", "prop8.jpg","5","4","Mayeen er Basha");
+
+	insert into property(seller_id, prop_location, porp_type, prop_description, prop_size, prop_price, prop_status, prop_image, prop_bed, prop_bath, prop_title)
+    values(1111,"Gopibagh","Flat","This is description","2200 sqft","475000","on list", "prop4.jpg","5","4","Ruslan er Basha");
+
+	insert into property(seller_id, prop_location, porp_type, prop_description, prop_size, prop_price, prop_status, prop_image, prop_bed, prop_bath, prop_title)
+    values(1111,"Shaymoli","Flat","This is description","2200 sqft","475000","on list", "prop10.jpg","5","4","Zenun er Basha");
+
+	insert into property(seller_id, prop_location, porp_type, prop_description, prop_size, prop_price, prop_status, prop_image, prop_bed, prop_bath, prop_title)
+    values(1111,"Gram","Flat","This is description","2200 sqft","475000","on list", "prop3.jpg","5","4","Manzar er Bahsa");
+
+	insert into property(seller_id, prop_location, porp_type, prop_description, prop_size, prop_price, prop_status, prop_image, prop_bed, prop_bath, prop_title)
+    values(1111,"Khilgaon","Flat","This is description","2200 sqft","475000","on list", "prop7.jpg","5","4","Ashiker Basha");
+
+	insert into property(prop_location, porp_type, prop_description, prop_size, prop_price, prop_status, prop_image, prop_bed, prop_bath, prop_title)
+    values("Khilgaon","Flat","This is description","2200 sqft","475000","on list", "prop7.jpg","5","4","Ashiker Basha");
 	
     use real_state_listing_properties;
 	select *from property;
+
+	use real_state_listing_properties;
+	Alter table property
+	add column added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+	use real_state_listing_properties;
+	Alter table property
+	add column prop_title varchar;
 ----------------------------------------------------------------------------------
 use real_state_listing_properties;
 create table listing(

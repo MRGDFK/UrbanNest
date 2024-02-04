@@ -44,11 +44,11 @@ session_start();
             <nav class="navbar" data-navbar>
                 <ul class="navbar-list">
                     <li>
-                        <a href="index.php" class="navbar-link label-medium active"> Home </a>
+                        <a href="index.php" class="navbar-link label-medium"> Home </a>
                     </li>
 
                     <li>
-                        <a href="#" class="navbar-link label-medium"> Buy </a>
+                        <a href="#" class="navbar-link label-medium active"> Buy </a>
                     </li>
 
                     <li>
@@ -75,8 +75,6 @@ session_start();
                             <a href="signup.php" class="btn btn-outline label-medium"> Get Started </a>';
                     }
                     ?>
-
-
                 </div>
             </nav>
 
@@ -97,14 +95,14 @@ session_start();
             <section class="hero">
                 <div class="container">
 
-                <div class="hero-container">
+                    <div class="hero-container">
                         <h1 class="headline-large hero-title"> Best properties in Bangladesh </h1>
                         <p class="body-large hero-text">
                             If you are looking for a place where you can be yourself, don't give up. Keep searching
                             until you find a place that feels like home.
                         </p>
                         <br>
-                        <form action="./" method="form" class="search-bar">
+                        <form action="" method="post" class="search-bar">
 
                             <label class="search-item">
                                 <span class="label-medium label">Want to</span>
@@ -120,22 +118,22 @@ session_start();
                                 <select name="property-type" class="search-item-field body-medium">
                                     <option value="any" selected> Any </option>
 
-                                    <optgroup label = "Residential">
+                                    <optgroup label="Residential">
                                         <option value="apartment" selected> Apartment </option>
                                         <option value="Room"> Room </option>
                                         <option value="flat"> Flat </option>
                                         <option value="plot"> Plot </option>
                                     </optgroup>
-                                    
+
                                     <optgroup label="Commercial">
                                         <option value="office"> Office </option>
                                         <option value="floor"> Floor </option>
                                     </optgroup>
-                                    
+
                                 </select>
                                 <span class="material-symbols-rounded" aria-hidden="true">gite</span>
                             </label>
-                            
+
                             <label class="search-item">
                                 <span class="label-medium label"> Location </span>
                                 <input type="text" name="location" placeholder="Street, City, Zip ..." class="search-item-field body-medium">
@@ -143,14 +141,14 @@ session_start();
                             </label>
 
                             <button type="submit" name="submit" class="search-btn">
-                                <span class="material-symbols-rounded" aria-hidden="true">search</span>
 
+                                <span class="material-symbols-rounded" aria-hidden="true">search</span>
                                 <span class="label-medium">Search</span>
                             </button>
 
                         </form>
                     </div>
-                    
+
                     <img src="./assets/images/hero.png" width="816" height="659" role="presentation" class="hero-banner">
 
                     <img src="./assets/images/bg-pattern.png" width="1240" height="840" role="presentation" class="bg-pattern">
@@ -158,187 +156,68 @@ session_start();
                 </div>
             </section>
 
+            <section clss="search-results">
+                <?php
+                if (isset($_POST["submit"])) {
+                    $loc = mysqli_real_escape_string($conn, $_POST['location']);
+                    $loc = filter_var($loc, FILTER_SANITIZE_STRING);
+                    
+                    $want = mysqli_real_escape_string($conn, $_POST['want-to']);
+                    $want = filter_var($want, FILTER_SANITIZE_STRING);
 
-            <!-- Property Section -->
+                    $type = mysqli_real_escape_string($conn, $_POST['property-type']);
+                    $type = filter_var($type, FILTER_SANITIZE_STRING);
 
-            <section class="section property" aria-labelledby="property-label">
-                <div class="container">
+                    /*$type = mysqli_real_escape_string($conn, $_POST['property-type']);
+                        $type = filter_var($loc, FILTER_SANITIZE_STRING);*/
 
-                    <div class="property-list">
-                        <div class="card">
-                            <div class="card-banner">
-                                <figure class="img-holder" style="--width: 585; --height: 390;">
-                                    <img src="./assets/images/property-1.jpg" width="585" height="390" alt="COVA Home Realty" class="img-cover">
-                                </figure>
+                    $searchQuery = "SELECT * FROM property WHERE prop_location = '$loc' OR prop_type LIKE '%{$type}%' OR prop_status LIKE '%{$want}%'";
+                    $searchResult =  mysqli_query($conn, $searchQuery);
 
-                                <span class="badge label-medium">New</span>
-                                <button class="icon-btn fav-btn" aria-label="add to favourite" data-fav-toggle-btn>
-                                    <span class="material-symbols-rounded" aria-hidden="true">favorite</span>
-                                </button>
-                            </div>
+                    if ($searchResult) {
+                        echo '<div class="property-list">';
+                        while ($row = mysqli_fetch_assoc($searchResult)) {
+                            echo '<div class="card">';
+                            echo '<div class="card-banner">';
+                            echo '<figure class="img-holder" style="--width: 585; --height: 390;">';
+                            echo '<img src="./assets/images/properties/' . $row['prop_image'] . '" width="585" height="390" alt="Property Image" class="img-cover">';
+                            echo '</figure>';
+                            echo '<button class="icon-btn fav-btn" aria-label="add to favourite" data-fav-toggle-btn>';
+                            echo '<span class="material-symbols-rounded" aria-hidden="true">favorite</span>';
+                            echo '</button>';
+                            echo '</div>';
 
-                            <div class="card-content">
-                                <span class="title-large">75,000৳</span>
-                                <h3>
-                                    <a href="#" class="title-small card-title">Dummy Test 2</a>
-                                </h3>
-                                <address class="body-medium card-text">
-                                    47/1/A, R.K Mission Road, Gopibag, Dhaka- 1203
-                                </address>
+                            echo '<div class="card-content">';
+                            echo '<span class="title-large">' . $row['prop_price'] . '৳</span>';
+                            echo '<h3><a href="#" class="title-small card-title">' . $row['prop_status'] . '</a></h3>';
+                            echo '<address class="body-medium card-text">' . $row['prop_location'] . '</address>';
 
-                                <div class="card-meta-list">
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bed</span>
-                                        <span class="meta-text label-medium">5 Bed</span>
-                                    </div>
+                            echo '<div class="card-meta-list">';
+                            echo '<div class="meta-item">';
+                            echo '<span class="material-symbols-rounded meta-icon" aria-hidden="true">bed</span>';
+                            echo '<span class="meta-text label-medium">' . $row['prop_bed'] . ' Bed</span>';
+                            echo '</div>';
 
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bathtub</span>
-                                        <span class="meta-text label-medium">4 Bath</span>
-                                    </div>
+                            echo '<div class="meta-item">';
+                            echo '<span class="material-symbols-rounded meta-icon" aria-hidden="true">bathtub</span>';
+                            echo '<span class="meta-text label-medium">' . $row['prop_bath'] . ' Bath</span>';
+                            echo '</div>';
 
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">straighten</span>
-                                        <span class="meta-text label-medium">2200 sqft</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            echo '<div class="meta-item">';
+                            echo '<span class="material-symbols-rounded meta-icon" aria-hidden="true">straighten</span>';
+                            echo '<span class="meta-text label-medium">' . $row['prop_size'] . ' sqft</span>';
+                            echo '</div>';
 
-                        <div class="card">
-                            <div class="card-banner">
-                                <figure class="img-holder" style="--width: 585; --height: 390;">
-                                    <img src="./assets/images/property-1.jpg" width="585" height="390" alt="COVA Home Realty" class="img-cover">
-                                </figure>
-
-                                <span class="badge label-medium">New</span>
-                                <button class="icon-btn fav-btn" aria-label="add to favourite" data-fav-toggle-btn>
-                                    <span class="material-symbols-rounded" aria-hidden="true">favorite</span>
-                                </button>
-                            </div>
-
-                            <div class="card-content">
-                                <span class="title-large">75,000৳</span>
-                                <h3>
-                                    <a href="#" class="title-small card-title">Dummy Test 1</a>
-                                </h3>
-                                <address class="body-medium card-text">
-                                    47/1/A, R.K Mission Road, Gopibag, Dhaka- 1203
-                                </address>
-
-                                <div class="card-meta-list">
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bed</span>
-                                        <span class="meta-text label-medium">5 Bed</span>
-                                    </div>
-
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bathtub</span>
-                                        <span class="meta-text label-medium">4 Bath</span>
-                                    </div>
-
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">straighten</span>
-                                        <span class="meta-text label-medium">2200 sqft</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <?php
-                                $result = mysqli_query($conn, "SELECT * FROM property WHERE prop_id='1'") or die("Select Error");
-                                $row = mysqli_fetch_assoc($result);
-                                $_SESSION['valid'] = null;
-                                $_SESSION['id'] = null;
-                                if (is_array($row) && !empty($row)) {
-                                    $_SESSION['valid'] = true;
-                                    $_SESSION['prop_location'] = $row['prop_location'];
-                                    $_SESSION['prop_size'] = $row['prop_size'];
-                                    $_SESSION['prop_description'] = $row['prop_description'];
-                                    
-                                }
-                                echo '<div class="card-banner">
-                                <figure class="img-holder" style="--width: 585; --height: 390;">
-                                    <img src="./assets/images/properties/'.$_SESSION['prop_description'].'" width="585" height="390" alt="COVA Home Realty" class="img-cover">
-                                </figure>
-
-                                <span class="badge label-medium">New</span>
-                                <button class="icon-btn fav-btn" aria-label="add to favourite" data-fav-toggle-btn>
-                                    <span class="material-symbols-rounded" aria-hidden="true">favorite</span>
-                                </button>
-                            </div>
-                            
-
-                            <div class="card-content">
-                                <span class="title-large">3,75,000৳</span>
-                                <h3>
-                                    <a href="#" class="title-small card-title">Dream Home 101</a>
-                                </h3>
-                                <address class="body-medium card-text">
-                                    '.$_SESSION['prop_location'].'
-                                </address>
-
-                                <div class="card-meta-list">
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bed</span>
-                                        <span class="meta-text label-medium">5 Bed</span>
-                                    </div>
-
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bathtub</span>
-                                        <span class="meta-text label-medium">4 Bath</span>
-                                    </div>
-
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">straighten</span>
-                                        <span class="meta-text label-medium">'.$_SESSION['prop_size'].' sqft</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';
-                        ?>
-                        <div class="card">
-                            <div class="card-banner">
-                                <figure class="img-holder" style="--width: 585; --height: 390;">
-                                    <img src="./assets/images/property-1.jpg" width="585" height="390" alt="COVA Home Realty" class="img-cover">
-                                </figure>
-
-                                <span class="badge label-medium">New</span>
-                                <button class="icon-btn fav-btn" aria-label="add to favourite" data-fav-toggle-btn>
-                                    <span class="material-symbols-rounded" aria-hidden="true">favorite</span>
-                                </button>
-                            </div>
-
-                            <div class="card-content">
-                                <span class="title-large">75,000৳</span>
-                                <h3>
-                                    <a href="#" class="title-small card-title">Dummy Test 4</a>
-                                </h3>
-                                <address class="body-medium card-text">
-                                    47/1/A, R.K Mission Road, Gopibag, Dhaka- 1203
-                                </address>
-
-                                <div class="card-meta-list">
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bed</span>
-                                        <span class="meta-text label-medium">5 Bed</span>
-                                    </div>
-
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bathtub</span>
-                                        <span class="meta-text label-medium">4 Bath</span>
-                                    </div>
-
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">straighten</span>
-                                        <span class="meta-text label-medium">2200 sqft</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            echo '</div>'; // .card-meta-list
+                            echo '</div>'; // .card-content
+                            echo '</div>'; // .card
+                        }
+                        echo '</div>';
+                    } else {
+                        echo "Error in search QUERY" . mysqli_errno($conn);
+                    }
+                }
+                ?>
 
             </section>
 
@@ -407,27 +286,69 @@ session_start();
 </html>
 
 <?php
-    if (isset($_POST["submit"])){
-        $str = $_POST["location"];
-        $sth = $conn -> prepare("SELECT * FROM 'property' WHERE prop_location = '$str'");
-        $sth -> setfetchMode(PDO:: FETCH_OBJ);
-        $sth -> execute();
-        
-        if ($row = $sth-> fetch()){
-            ?>
-            <br> <br> <br>
-            <table>
-                <tr>
-                    <th>Name</th>
-                    <th>Bed</th>
-                    <th>Bath</th>
-                </tr>
-                <tr>
-                    <td><? php echo $row-> prop_name; ?></td>
-                    <td><? php echo $row-> prop_bed ?></td>
-                    <td><? php echo $row-> prop_bath ?></td>
-                </tr>
-            </table>
-        }
-    }
+if (isset($_POST["submit"])) {
 
+    //$wantTo = mysqli_real_escape_string($conn, $_POST['want-to']);
+    //$propertyType = mysqli_real_escape_string($conn, $_POST['property-type']);
+    $loc = $_POST['location'];
+    $searchQuery = "SELECT * FROM property WHERE prop_location LIKE  '%{$loc}%'";
+    //$query ="SELECT * FROM PRODUCTS WHERE product_name LIKE '{$input}%'";
+    $searchResult =  mysqli_query($conn, $searchQuery);
+
+    if ($mysqli_num_rows($searchResult) > 0) {
+        while ($row = $searchResult->fetch_assoc()) {
+
+            echo '<div class = "card" ';
+            // Display property image
+            echo '<div class="card-banner">';
+            echo '<figure class="img-holder" style="--width: 585; --height: 390;">';
+            echo '<img src="./assets/images/properties/' . $row['prop_image'] . '" width="585" height="390" alt="Property Image" class="img-cover">';
+            echo '</figure>';
+
+            // Display property status (e.g., New)
+            //echo '<span class="badge label-medium">' . ($row['is_new'] ? 'New' : '') . '</span>';
+            // Display favorite button
+
+            echo '<button class="icon-btn fav-btn" aria-label="add to favourite" data-fav-toggle-btn>';
+            echo '<span class="material-symbols-rounded" aria-hidden="true">favorite</span>';
+            echo '</button>';
+
+            echo '</div>'; // .card-banner
+
+            // Display property details
+            echo '<div class="card-content">';
+            echo '<span class="title-large">' . $row['prop_price'] . '৳</span>';
+            echo '<h3><a href="#" class="title-small card-title">' . $row['prop_description'] . '</a></h3>';
+            echo '<address class="body-medium card-text">' . $row['prop_location'] . '</address>';
+
+            // Display meta information (e.g., bed, bath, sqft)
+            echo '<div class="card-meta-list">';
+            echo '<div class="meta-item">';
+            echo '<span class="material-symbols-rounded meta-icon" aria-hidden="true">bed</span>';
+            echo '<span class="meta-text label-medium">' . $row['prop_bed'] . ' Bed</span>';
+            echo '</div>';
+
+            echo '<div class="meta-item">';
+            echo '<span class="material-symbols-rounded meta-icon" aria-hidden="true">bathtub</span>';
+            echo '<span class="meta-text label-medium">' . $row['prop_bath'] . ' Bath</span>';
+            echo '</div>';
+
+            echo '<div class="meta-item">';
+            echo '<span class="material-symbols-rounded meta-icon" aria-hidden="true">straighten</span>';
+            echo '<span class="meta-text label-medium">' . $row['prop_size'] . ' sqft</span>';
+            echo '</div>';
+
+            echo '</div>'; // .card-meta-list
+
+            echo '</div>'; // .card-content
+
+            echo '</div>'; // .card
+
+        }
+    } else {
+        echo "Error in search QUERY" . mysqli_errno($conn);
+    }
+}
+
+
+?>

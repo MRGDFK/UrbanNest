@@ -104,7 +104,7 @@
                             until you find a place that feels like home.
                         </p>
                         <br>
-                        <form action="./" method="get" class="search-bar">
+                        <form action="" method="post" class="search-bar">
 
                             <label class="search-item">
                                 <span class="label-medium label">Want to</span>
@@ -136,7 +136,7 @@
                                 <span class="material-symbols-rounded" aria-hidden="true">location_on</span>
                             </label>
 
-                            <button type="submit" class="search-btn">
+                            <button type="submit" name="submit" class="search-btn">
                                 <span class="material-symbols-rounded" aria-hidden="true">search</span>
 
                                 <span class="label-medium">Search</span>
@@ -154,6 +154,70 @@
                 </div>
             </section>
 
+            <section clss="search-results">
+                <?php
+                if (isset($_POST["submit"])) {
+                    $loc = mysqli_real_escape_string($conn, $_POST['location']);
+                    $loc = filter_var($loc, FILTER_SANITIZE_STRING);
+                    
+                    $want = mysqli_real_escape_string($conn, $_POST['want-to']);
+                    $want = filter_var($want, FILTER_SANITIZE_STRING);
+
+                    $type = mysqli_real_escape_string($conn, $_POST['property-type']);
+                    $type = filter_var($type, FILTER_SANITIZE_STRING);
+
+                    /*$type = mysqli_real_escape_string($conn, $_POST['property-type']);
+                        $type = filter_var($loc, FILTER_SANITIZE_STRING);*/
+
+                    $searchQuery = "SELECT * FROM property WHERE prop_location = '$loc' OR prop_status LIKE '%{$type}%' OR prop_status LIKE '%{$want}%'";
+                    $searchResult =  mysqli_query($conn, $searchQuery);
+
+                    if ($searchResult) {
+                        echo '<div class="property-list">';
+                        while ($row = mysqli_fetch_assoc($searchResult)) {
+                            echo '<div class="card">';
+                            echo '<div class="card-banner">';
+                            echo '<figure class="img-holder" style="--width: 585; --height: 390;">';
+                            echo '<img src="./assets/images/properties/' . $row['prop_image'] . '" width="585" height="390" alt="Property Image" class="img-cover">';
+                            echo '</figure>';
+                            echo '<button class="icon-btn fav-btn" aria-label="add to favourite" data-fav-toggle-btn>';
+                            echo '<span class="material-symbols-rounded" aria-hidden="true">favorite</span>';
+                            echo '</button>';
+                            echo '</div>';
+
+                            echo '<div class="card-content">';
+                            echo '<span class="title-large">' . $row['prop_price'] . '৳</span>';
+                            echo '<h3><a href="#" class="title-small card-title">' . $row['prop_status'] . '</a></h3>';
+                            echo '<address class="body-medium card-text">' . $row['prop_location'] . '</address>';
+
+                            echo '<div class="card-meta-list">';
+                            echo '<div class="meta-item">';
+                            echo '<span class="material-symbols-rounded meta-icon" aria-hidden="true">bed</span>';
+                            echo '<span class="meta-text label-medium">' . $row['prop_bed'] . ' Bed</span>';
+                            echo '</div>';
+
+                            echo '<div class="meta-item">';
+                            echo '<span class="material-symbols-rounded meta-icon" aria-hidden="true">bathtub</span>';
+                            echo '<span class="meta-text label-medium">' . $row['prop_bath'] . ' Bath</span>';
+                            echo '</div>';
+
+                            echo '<div class="meta-item">';
+                            echo '<span class="material-symbols-rounded meta-icon" aria-hidden="true">straighten</span>';
+                            echo '<span class="meta-text label-medium">' . $row['prop_size'] . ' sqft</span>';
+                            echo '</div>';
+
+                            echo '</div>'; // .card-meta-list
+                            echo '</div>'; // .card-content
+                            echo '</div>'; // .card
+                        }
+                        echo '</div>';
+                    } else {
+                        echo "Error in search QUERY" . mysqli_errno($conn);
+                    }
+                }
+                ?>
+
+            </section>
 
             <!-- Property Section -->
 
@@ -171,172 +235,59 @@
                             </p>
                         </div>
 
-                        <a href="#" class="btn btn-outline">
-                            <span class="label-medium">Explore More</span>
+                        <a href="buy.php" class="btn btn-outline">
+                            <span class="label-medium">Explore</span>
                             <span class="material-symbols-rounded" aria-hidden="true">arrow_outward</span>
                         </a>
                     </div>
-
+                    <h2 class="section-title headline-small">⌛ Recent Properties </h2>
+                    <br>
                     <div class="property-list">
-                        <div class="card">
-                            <div class="card-banner">
-                                <figure class="img-holder" style="--width: 585; --height: 390;">
-                                    <img src="./assets/images/property-1.jpg" width="585" height="390" alt="COVA Home Realty" class="img-cover">
-                                </figure>
+                    
 
-                                <span class="badge label-medium">New</span>
-                                <button class="icon-btn fav-btn" aria-label="add to favourite" data-fav-toggle-btn>
-                                    <span class="material-symbols-rounded" aria-hidden="true">favorite</span>
-                                </button>
-                            </div>
+                    <?php
+                        $recents = "SELECT * FROM property ORDER BY added_at DESC LIMIT 8";
+                        $recents = mysqli_query($conn,$recents);
+                        if ($recents->num_rows>0){
+                            while($row = $recents->fetch_assoc()) {
+                            echo '<div class="card">';
+                            echo '<div class="card-banner">';
+                            echo '<figure class="img-holder" style="--width: 585; --height: 390;">';
+                            echo '<img src="./assets/images/properties/' . $row['prop_image'] . '" width="585" height="390" alt="Property Image" class="img-cover">';
+                            echo '</figure>';
+                            echo '<button class="icon-btn fav-btn" aria-label="add to favourite" data-fav-toggle-btn>';
+                            echo '<span class="material-symbols-rounded" aria-hidden="true">favorite</span>';
+                            echo '</button>';
+                            echo '</div>';
 
-                            <div class="card-content">
-                                <span class="title-large">75,000৳</span>
-                                <h3>
-                                    <a href="#" class="title-small card-title">COVA Home Reality</a>
-                                </h3>
-                                <address class="body-medium card-text">
-                                    47/1/A, R.K Mission Road, Gopibag, Dhaka- 1203
-                                </address>
+                            echo '<div class="card-content">';
+                            echo '<span class="title-large">' . $row['prop_price'] . '৳</span>';
+                            echo '<h3><a href="#" class="title-small card-title">' . $row['prop_title'] . '</a></h3>';
+                            echo '<address class="body-medium card-text">' . $row['prop_location'] . '</address>';
 
-                                <div class="card-meta-list">
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bed</span>
-                                        <span class="meta-text label-medium">5 Bed</span>
-                                    </div>
+                            echo '<div class="card-meta-list">';
+                            echo '<div class="meta-item">';
+                            echo '<span class="material-symbols-rounded meta-icon" aria-hidden="true">bed</span>';
+                            echo '<span class="meta-text label-medium">' . $row['prop_bed'] . ' Bed</span>';
+                            echo '</div>';
 
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bathtub</span>
-                                        <span class="meta-text label-medium">4 Bath</span>
-                                    </div>
+                            echo '<div class="meta-item">';
+                            echo '<span class="material-symbols-rounded meta-icon" aria-hidden="true">bathtub</span>';
+                            echo '<span class="meta-text label-medium">' . $row['prop_bath'] . ' Bath</span>';
+                            echo '</div>';
 
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">straighten</span>
-                                        <span class="meta-text label-medium">2200 sqft</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            echo '<div class="meta-item">';
+                            echo '<span class="material-symbols-rounded meta-icon" aria-hidden="true">straighten</span>';
+                            echo '<span class="meta-text label-medium">' . $row['prop_size'] . '</span>';
+                            echo '</div>';
 
-                        <div class="card">
-                            <div class="card-banner">
-                                <figure class="img-holder" style="--width: 585; --height: 390;">
-                                    <img src="./assets/images/property-1.jpg" width="585" height="390" alt="COVA Home Realty" class="img-cover">
-                                </figure>
+                            echo '</div>'; // .card-meta-list
+                            echo '</div>'; // .card-content
+                            echo '</div>'; // .card
+                            }
+                        }
+                    ?>
 
-                                <span class="badge label-medium">New</span>
-                                <button class="icon-btn fav-btn" aria-label="add to favourite" data-fav-toggle-btn>
-                                    <span class="material-symbols-rounded" aria-hidden="true">favorite</span>
-                                </button>
-                            </div>
-
-                            <div class="card-content">
-                                <span class="title-large">75,000৳</span>
-                                <h3>
-                                    <a href="#" class="title-small card-title">COVA Home Reality</a>
-                                </h3>
-                                <address class="body-medium card-text">
-                                    47/1/A, R.K Mission Road, Gopibag, Dhaka- 1203
-                                </address>
-
-                                <div class="card-meta-list">
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bed</span>
-                                        <span class="meta-text label-medium">5 Bed</span>
-                                    </div>
-
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bathtub</span>
-                                        <span class="meta-text label-medium">4 Bath</span>
-                                    </div>
-
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">straighten</span>
-                                        <span class="meta-text label-medium">2200 sqft</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-banner">
-                                <figure class="img-holder" style="--width: 585; --height: 390;">
-                                    <img src="./assets/images/property-1.jpg" width="585" height="390" alt="COVA Home Realty" class="img-cover">
-                                </figure>
-
-                                <span class="badge label-medium">New</span>
-                                <button class="icon-btn fav-btn" aria-label="add to favourite" data-fav-toggle-btn>
-                                    <span class="material-symbols-rounded" aria-hidden="true">favorite</span>
-                                </button>
-                            </div>
-
-                            <div class="card-content">
-                                <span class="title-large">75,000৳</span>
-                                <h3>
-                                    <a href="#" class="title-small card-title">COVA Home Reality</a>
-                                </h3>
-                                <address class="body-medium card-text">
-                                    47/1/A, R.K Mission Road, Gopibag, Dhaka- 1203
-                                </address>
-
-                                <div class="card-meta-list">
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bed</span>
-                                        <span class="meta-text label-medium">5 Bed</span>
-                                    </div>
-
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bathtub</span>
-                                        <span class="meta-text label-medium">4 Bath</span>
-                                    </div>
-
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">straighten</span>
-                                        <span class="meta-text label-medium">2200 sqft</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-banner">
-                                <figure class="img-holder" style="--width: 585; --height: 390;">
-                                    <img src="./assets/images/property-1.jpg" width="585" height="390" alt="COVA Home Realty" class="img-cover">
-                                </figure>
-
-                                <span class="badge label-medium">New</span>
-                                <button class="icon-btn fav-btn" aria-label="add to favourite" data-fav-toggle-btn>
-                                    <span class="material-symbols-rounded" aria-hidden="true">favorite</span>
-                                </button>
-                            </div>
-
-                            <div class="card-content">
-                                <span class="title-large">75,000৳</span>
-                                <h3>
-                                    <a href="#" class="title-small card-title">COVA Home Reality</a>
-                                </h3>
-                                <address class="body-medium card-text">
-                                    47/1/A, R.K Mission Road, Gopibag, Dhaka- 1203
-                                </address>
-
-                                <div class="card-meta-list">
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bed</span>
-                                        <span class="meta-text label-medium">5 Bed</span>
-                                    </div>
-
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">bathtub</span>
-                                        <span class="meta-text label-medium">4 Bath</span>
-                                    </div>
-
-                                    <div class="meta-item">
-                                        <span class="material-symbols-rounded meta-icon" aria-hidden="true">straighten</span>
-                                        <span class="meta-text label-medium">2200 sqft</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
