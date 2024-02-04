@@ -155,7 +155,9 @@ session_start();
 
                 </div>
             </section>
-
+            
+            <div class="container">
+                <br>
             <section clss="search-results">
                 <?php
                 if (isset($_POST["submit"])) {
@@ -171,7 +173,7 @@ session_start();
                     /*$type = mysqli_real_escape_string($conn, $_POST['property-type']);
                         $type = filter_var($loc, FILTER_SANITIZE_STRING);*/
 
-                    $searchQuery = "SELECT * FROM property WHERE prop_location = '$loc' OR prop_type LIKE '%{$type}%' OR prop_status LIKE '%{$want}%'";
+                    $searchQuery = "SELECT * FROM property WHERE prop_location = '$loc' OR porp_type = '$type' OR prop_status = '$want' ";
                     $searchResult =  mysqli_query($conn, $searchQuery);
 
                     if ($searchResult) {
@@ -220,7 +222,8 @@ session_start();
                 ?>
 
             </section>
-
+            <br>
+            </div>
         </article>
     </main>
 
