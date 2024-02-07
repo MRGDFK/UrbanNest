@@ -42,7 +42,7 @@
             <nav class="navbar" data-navbar>
                 <ul class="navbar-list">
                     <li>
-                        <a href="index.php" class="navbar-link label-medium active"> Home </a>
+                        <a href="index.php" class="navbar-link label-medium"> Home </a>
                     </li>
 
                     <li>
@@ -50,7 +50,7 @@
                     </li>
 
                     <li>
-                        <a href="sell2.php" class="navbar-link label-medium"> Sell </a>
+                        <a href="sell2.php" class="navbar-link label-medium active"> Sell </a>
                     </li>
 
                     <li>

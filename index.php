@@ -69,7 +69,7 @@
                         if($_SESSION['valid']){
 
                             echo '<a href="logout.php" class="btn-link label-medium"> Logout </a>';
-                            echo '<a href="#" class="btn btn-outline label-medium"> Ohayo, '.$_SESSION['user_username'].'</a>';
+                            echo '<a href="profile.php" class="btn btn-outline label-medium"> Hello, '.$_SESSION['user_username'].' '.$_SESSION['agent_username'].'</a>';
                         
                         }
                         else{
@@ -110,7 +110,6 @@
                                 <span class="label-medium label">Want to</span>
                                 <select name="want-to" class="search-item-field body-medium">
                                     <option value="buy" selected> Buy </option>
-                                    <option value="Sell"> Sell </option>
                                     <option value="Rent"> Rent </option>
                                 </select>
                                 <span class="material-symbols-rounded" aria-hidden="true">real_estate_agent</span>
@@ -120,11 +119,18 @@
                                 <span class="label-medium label"> Property Type </span>
                                 <select name="property-type" class="search-item-field body-medium">
                                     <option value="any" selected> Any </option>
-                                    <option value="houses"> Houses </option>
-                                    <option value="apartments"> Flat </option>
-                                    <option value="plot"> Plot </option>
 
+                                    <optgroup label="Residential">
+                                        <option value="apartment" selected> Apartment </option>
+                                        <option value="Room"> Room </option>
+                                        <option value="flat"> Flat </option>
+                                        <option value="plot"> Plot </option>
+                                    </optgroup>
 
+                                    <optgroup label="Commercial">
+                                        <option value="office"> Office </option>
+                                        <option value="floor"> Floor </option>
+                                    </optgroup>
 
                                 </select>
                                 <span class="material-symbols-rounded" aria-hidden="true">gite</span>
@@ -153,7 +159,8 @@
 
                 </div>
             </section>
-
+            <div class="container">
+                <br>
             <section clss="search-results">
                 <?php
                 if (isset($_POST["submit"])) {
@@ -169,7 +176,7 @@
                     /*$type = mysqli_real_escape_string($conn, $_POST['property-type']);
                         $type = filter_var($loc, FILTER_SANITIZE_STRING);*/
 
-                    $searchQuery = "SELECT * FROM property WHERE prop_location = '$loc' OR prop_status LIKE '%{$type}%' OR prop_status LIKE '%{$want}%'";
+                    $searchQuery = "SELECT * FROM property WHERE prop_location = '$loc' OR porp_type = '$type' OR prop_status = '$want' ";
                     $searchResult =  mysqli_query($conn, $searchQuery);
 
                     if ($searchResult) {
@@ -187,7 +194,7 @@
 
                             echo '<div class="card-content">';
                             echo '<span class="title-large">' . $row['prop_price'] . '৳</span>';
-                            echo '<h3><a href="#" class="title-small card-title">' . $row['prop_status'] . '</a></h3>';
+                            echo '<h3><a href="#" class="title-small card-title">' . $row['porp_status'] . '</a></h3>';
                             echo '<address class="body-medium card-text">' . $row['prop_location'] . '</address>';
 
                             echo '<div class="card-meta-list">';
@@ -218,6 +225,9 @@
                 ?>
 
             </section>
+
+
+            </div>
 
             <!-- Property Section -->
 

@@ -48,11 +48,11 @@ session_start();
                     </li>
 
                     <li>
-                        <a href="#" class="navbar-link label-medium active"> Buy </a>
+                        <a href="buy.php" class="navbar-link label-medium active"> Buy </a>
                     </li>
 
                     <li>
-                        <a href="#" class="navbar-link label-medium"> Sell </a>
+                        <a href="sell2.php" class="navbar-link label-medium"> Sell </a>
                     </li>
 
                     <li>
@@ -60,7 +60,7 @@ session_start();
                     </li>
 
                     <li>
-                        <a href="#" class="navbar-link label-medium"> About </a>
+                        <a href="aboutus.php" class="navbar-link label-medium"> About </a>
                     </li>
 
                 </ul>
@@ -191,7 +191,7 @@ session_start();
 
                             echo '<div class="card-content">';
                             echo '<span class="title-large">' . $row['prop_price'] . '৳</span>';
-                            echo '<h3><a href="#" class="title-small card-title">' . $row['prop_status'] . '</a></h3>';
+                            echo '<h3><a href="#" class="title-small card-title">' . $row['porp_status'] . '</a></h3>';
                             echo '<address class="body-medium card-text">' . $row['prop_location'] . '</address>';
 
                             echo '<div class="card-meta-list">';

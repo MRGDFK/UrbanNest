@@ -55,11 +55,11 @@ session_start();
                     </li>
 
                     <li>
-                        <a href="agent.php" class="navbar-link label-medium active"> Agent </a>
+                        <a href="agent.php" class="navbar-link label-medium"> Agent </a>
                     </li>
 
                     <li>
-                        <a href="#" class="navbar-link label-medium"> About </a>
+                        <a href="aboutus.php" class="navbar-link label-medium active"> About </a>
                     </li>
 
                 </ul>
@@ -69,7 +69,7 @@ session_start();
                     if ($_SESSION['valid']) {
 
                         echo '<a href="logout.php" class="btn-link label-medium"> Logout </a>';
-                        echo '<a href="#" class="btn btn-outline label-medium"> Ohayo, ' . $_SESSION['user_username'] . '</a>';
+                        echo '<a href="profile.php" class="btn btn-outline label-medium"> Ohayo, ' . $_SESSION['user_username'] . '</a>';
                     } else {
                         echo '<a href="login.php" class="btn-link label-medium"> Login </a>
                             <a href="signup.php" class="btn btn-outline label-medium"> Get Started </a>;
@@ -109,7 +109,7 @@ session_start();
     }
     ?>
     <main>
-        <div class="body-container">
+        <div class="body-container", id="sharjil">
             <br>
         
             <div class="background-image">

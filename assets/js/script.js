@@ -20,3 +20,5 @@ $favToggler.forEach($toggleBtn => {
     });
 });
 
+document.getElementById('accountBtn').addEventListener('click', function() {
+    document.getElementById('accountDetails').style.display = 'block'; });

@@ -47,11 +47,11 @@
                     </li>
 
                     <li>
-                        <a href="#" class="navbar-link label-medium"> Buy </a>
+                        <a href="buy.php" class="navbar-link label-medium"> Buy </a>
                     </li>
 
                     <li>
-                        <a href="#" class="navbar-link label-medium"> Sell </a>
+                        <a href="sell2.php" class="navbar-link label-medium"> Sell </a>
                     </li>
 
                     <li>
@@ -59,7 +59,7 @@
                     </li>
 
                     <li>
-                        <a href="#" class="navbar-link label-medium"> About </a>
+                        <a href="aboutus.php" class="navbar-link label-medium"> About </a>
                     </li>
 
                 </ul>
@@ -185,7 +185,7 @@
             $email = mysqli_real_escape_string($conn, $_POST['email']);
             $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-            $result = mysqli_query($conn, "SELECT * FROM user WHERE agent_email='$email' AND agent_password='$password'") or die("Select Error");
+            $result = mysqli_query($conn, "SELECT * FROM agent WHERE agent_email='$email' AND agent_password='$password'") or die("Select Error");
             $row = mysqli_fetch_assoc($result);
             $_SESSION['valid'] = null;
             $_SESSION['id'] = null;
