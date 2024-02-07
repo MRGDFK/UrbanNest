@@ -46,11 +46,11 @@
                     </li>
 
                     <li>
-                        <a href="#" class="navbar-link label-medium"> Buy </a>
+                        <a href="buy.php" class="navbar-link label-medium"> Buy </a>
                     </li>
 
                     <li>
-                        <a href="#" class="navbar-link label-medium"> Sell </a>
+                        <a href="sell2.php" class="navbar-link label-medium"> Sell </a>
                     </li>
 
                     <li>
@@ -58,7 +58,7 @@
                     </li>
 
                     <li>
-                        <a href="#" class="navbar-link label-medium"> About </a>
+                        <a href="aboutus.php" class="navbar-link label-medium"> About </a>
                     </li>
 
                 </ul>

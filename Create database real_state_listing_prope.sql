@@ -55,12 +55,6 @@ create table review(
 	select *from review;
 ----------------------------------------------------------------------------------------------------------------------
 use real_state_listing_properties;
-create table generate(
-    user_id int not null,
-    foreign key(user_id) references user(user_id),
-    buyer_id int not null unique key,
-    seller_id int not null unique key
-);
 
     use real_state_listing_properties;
     insert into generate(user_id,buyer_id,seller_id) values (1,111,1111);
@@ -108,13 +102,20 @@ create table property(
 	insert into property(seller_id, prop_location, porp_type, prop_description, prop_size, prop_price, prop_status, prop_image, prop_bed, prop_bath, prop_title)
     values(1111,"Gram","Flat","This is description","2200 sqft","475000","on list", "prop3.jpg","5","4","Manzar er Bahsa");
 
+	use real_state_listing_properties;
 	insert into property(seller_id, prop_location, porp_type, prop_description, prop_size, prop_price, prop_status, prop_image, prop_bed, prop_bath, prop_title)
-    values(1111,"Khilgaon","Flat","This is description","2200 sqft","475000","on list", "prop7.jpg","5","4","Ashiker Basha");
+    values(1111,"Khilgaon","Apartment","This is description","2200 sqft","475000","on list", "prop7.jpg","5","4","Ashiker Basha");
+	use real_state_listing_properties;
+	insert into property(seller_id, prop_location, porp_type, prop_description, prop_size, prop_price, prop_status, prop_image, prop_bed, prop_bath, prop_title)
+    values(1111,"Khilgaon","Apartment","This is description","2200 sqft","475000","on list", "prop1.jpg","5","4","Ashiker Basha");
+	insert into property(seller_id, prop_location, porp_type, prop_description, prop_size, prop_price, prop_status, prop_image, prop_bed, prop_bath, prop_title)
+    values(1111,"Khilgaon","Apartment","This is description","2200 sqft","475000","on list", "prop3.jpg","5","4","Ashiker Basha");
 
+	use real_state_listing_properties;
 	insert into property(prop_location, porp_type, prop_description, prop_size, prop_price, prop_status, prop_image, prop_bed, prop_bath, prop_title)
-    values("Khilgaon","Flat","This is description","2200 sqft","475000","on list", "prop7.jpg","5","4","Ashiker Basha");
+    values("Khilgaon","Apartment","This is description","2200 sqft","475000","on list", "prop6.jpg","5","4","Nur Hossain Villa");
 	
-    use real_state_listing_properties;
+    
 	select *from property;
 
 	use real_state_listing_properties;

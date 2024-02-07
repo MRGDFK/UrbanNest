@@ -134,7 +134,7 @@
         <div class="footer-top">
             <div class="container">
                 <div class="footer-brand">
-                    <a href="#" class="logo">
+                    <a href="index.php" class="logo">
                         <img src="./assets/images/urbanNest.png" width="190" height="28" alt="UrbanNest">
                     </a>
                 </div>
@@ -143,13 +143,13 @@
                     <p class="title-small footer-list-title" id="nav-label-1">Quick Link</p>
                     <ul class="footer-list">
                         <li>
-                            <a href="#" class="body-medium footer-link">Home</a>
+                            <a href="index.php" class="body-medium footer-link">Home</a>
                         </li>
                         <li>
-                            <a href="#" class="body-medium footer-link">Buy</a>
+                            <a href="buy.php" class="body-medium footer-link">Buy</a>
                         </li>
                         <li>
-                            <a href="#" class="body-medium footer-link">Sell</a>
+                            <a href="sell2.php" class="body-medium footer-link">Sell</a>
                         </li>
                         <li>
                             <a href="#" class="body-medium footer-link">Agent</a>
